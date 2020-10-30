@@ -1,13 +1,21 @@
 require './lib/Docking_station'
 
-describe "Dockingstation" do
-  it "Create insatnce from Class Dockingstation" do
-    expect(docking_station = Dockingstation.new).to eq docking_station
+describe Dockingstation do
+  describe '#dock' do
+    it 'raises an error when full' do
+      subject.dock(Bike.new)
+      expect { subject.dock Bike.new }.to raise_error 'Capacity Full'
+    end
   end
-end
 
-describe "Dockingstation instances respond to method: Release_bike" do
-  it "Each instance able to respond to release_bike method" do
-    expect(Dockingstation.new).to respond_to(:release_bike)
+  describe '#release_bike' do
+    it 'releases bike' do
+      bike = Bike.new
+      subject.dock(bike)
+      expect(subject.release_bike).to eq bike
+    end
+    it 'return error message if no Bikes available' do
+      expect {subject.release_bike}.to raise_error "No Bikes Available"
+    end
   end
 end
